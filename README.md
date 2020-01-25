@@ -4,7 +4,7 @@ A small application that simulates two common Unix commands: **cd** and **ls**
 ## Launching
 
 #### Requirements
-- [node](https://nodejs.org/en/download/) installed
+- [node](https://nodejs.org/en/download/) v12.4.1 or greater  installed
 
 #### Getting started
 - On the root folder, run `npm install` to get necessary dependencies;

@@ -1,3 +1,4 @@
+const columnify = require('columnify');
 const { COMMANDS } = require('../util/constants');
 
 const HELP_INFO = [
@@ -43,6 +44,10 @@ const LS_INFO = [
     }
 ];
 
+const COL_OPTIONS = {
+    maxWidth: 50
+};
+
 const helpCommand = {
     process(args) {
         const [command] = args;
@@ -52,7 +57,7 @@ const helpCommand = {
         if (command) {
             helpCommand.showCommandInfo(command);
         } else {
-            helpCommand.showDefaulInfo();
+            helpCommand.showDefaultInfo();
         }
     },
     showHeader(command) {
@@ -67,17 +72,17 @@ const helpCommand = {
             console.log();
         }
     },
-    showDefaulInfo() {
-        console.table(HELP_INFO);
+    showDefaultInfo() {
+        console.log(columnify(HELP_INFO, COL_OPTIONS));
         console.log();
     },
     showCommandInfo(command) {
         switch (command) {
             case COMMANDS.CD:
-                console.table(CD_INFO);
+                console.log(columnify(CD_INFO, COL_OPTIONS));
                 break;
             case COMMANDS.LS:
-                console.table(LS_INFO);
+                console.log(columnify(LS_INFO, COL_OPTIONS));
                 break;
             default:
                 console.log(`Help information for ${ command } is not available`);

@@ -3,7 +3,7 @@ const path = require('path');
 const prettyBytes = require('pretty-bytes');
 const pathUtils = require('../util/path-utils');
 
-const STR_LIMIT = 25;
+const STR_LIMIT = 20;
 const SPACE_CHAR = ' ';
 const FLAG_CHAR = '-';
 const PAD = SPACE_CHAR.repeat(STR_LIMIT);
@@ -51,12 +51,13 @@ function printOutput(cmdPath, flags) {
             }
 
             file.lastModTime = stats.mtime;
+            file.sizeInBytes = stats.size;
             file.size = H_FLAG ? prettyBytes(stats.size) : `${ stats.size } B`;
         });
     }
 
     if (S_FLAG) {
-        files = files.sort((a, b) => b.size - a.size);
+        files = files.sort((a, b) => b.sizeInBytes - a.sizeInBytes);
     }
 
     if (T_FLAG) {
@@ -73,7 +74,8 @@ function printOutput(cmdPath, flags) {
 function readFiles(path) {
     let files = [];
 
-    if (!fs.existsSync(path) || !fs.lstatSync(path).isDirectory()) {
+    if (!fs.existsSync(path) || !fs.lstatSync(path).
+        isDirectory()) {
         console.warn('ls: Not a directory');
         return files;
     }
@@ -91,15 +93,16 @@ function simpleOutput(files) {
     let output = '';
 
     files.forEach((file, index) => {
-        output += (file.name + PAD).slice(0, STR_LIMIT);
-        output += ((index + 1) % 4 === 0) ? '\n' : '\t';
+        const fourthRow = ((index + 1) % 4 === 0);
+        output += (file.name + (fourthRow ? '' : PAD)).slice(0, STR_LIMIT);
+        output += fourthRow ? '\n' : '\t';
     });
 
     console.log(output);
 }
 
 function tableOutput(files) {
-    console.table(files);
+    console.table(files, ['name', 'lastModTime', 'size']);
 }
 
 module.exports = lsCommand;
