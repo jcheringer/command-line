@@ -10,7 +10,9 @@
   "author": "Joao Heringer",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "^7.0.4",
     "pretty-bytes": "^5.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
   }
 }

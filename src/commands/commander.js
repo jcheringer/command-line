@@ -25,7 +25,7 @@ const cmdUtils = {
         });
     },
     process(input) {
-        const [command, ...arguments] = input.match(/"[^"]+"|[^\s"]+/g).map(m => m.replace(/"(.*?)"/, "$1"));
+        const [command, ...args] = input.match(/"[^"]+"|[^\s"]+/g).map(m => m.replace(/"(.*?)"/, "$1"));
 
         if (command === '') {
             return;
@@ -37,15 +37,15 @@ const cmdUtils = {
                 break;
             }
             case COMMANDS.HELP: {
-                helpCommand.process(arguments);
+                helpCommand.process(args);
                 break;
             }
             case COMMANDS.CD: {
-                cdCommand.process(arguments);
+                cdCommand.process(args);
                 break;
             }
             case COMMANDS.LS: {
-                lsCommand.process(arguments);
+                lsCommand.process(args);
                 break;
             }
             default: {
